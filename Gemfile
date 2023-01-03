@@ -81,6 +81,7 @@ group :development, :test do
   gem "prettier"
   gem "rails_live_reload"
   gem "rubocop-rails", require: false
+  gem "faker", git: "https://github.com/faker-ruby/faker", branch: "main"
 end
 gem "dotenv-rails"
 gem "devise"
