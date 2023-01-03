@@ -83,6 +83,13 @@ GEM
     backport (1.2.0)
     bcrypt (3.1.18)
     benchmark (0.2.1)
+    better_html (2.0.1)
+      actionview (>= 6.0)
+      activesupport (>= 6.0)
+      ast (~> 2.0)
+      erubi (~> 1.4)
+      parser (>= 2.4)
+      smart_properties
     bindex (0.8.1)
     bootsnap (1.15.0)
       msgpack (~> 1.2)
@@ -114,6 +121,13 @@ GEM
       dotenv (= 2.8.1)
       railties (>= 3.2)
     e2mmap (0.1.0)
+    erb_lint (0.3.1)
+      activesupport
+      better_html (>= 2.0.1)
+      parser (>= 2.7.1.4)
+      rainbow
+      rubocop
+      smart_properties
     erubi (1.12.0)
     ffi (1.15.5)
     globalid (1.0.0)
@@ -244,16 +258,32 @@ GEM
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.24.1)
       parser (>= 3.1.1.0)
+    rubocop-minitest (0.25.1)
+      rubocop (>= 0.90, < 2.0)
+    rubocop-packaging (0.5.2)
+      rubocop (>= 1.33, < 2.0)
+    rubocop-performance (1.15.2)
+      rubocop (>= 1.7.0, < 2.0)
+      rubocop-ast (>= 0.4.0)
     rubocop-rails (2.17.4)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
+    rubocop-rails_config (1.12.0)
+      railties (>= 5.0)
+      rubocop (>= 1.39.0)
+      rubocop-ast (>= 1.0.1)
+      rubocop-minitest (~> 0.22)
+      rubocop-packaging (~> 0.5)
+      rubocop-performance (~> 1.11)
+      rubocop-rails (~> 2.0)
     ruby-progressbar (1.11.0)
     rubyzip (2.3.2)
     selenium-webdriver (4.7.1)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    smart_properties (1.17.0)
     solargraph (0.48.0)
       backport (~> 1.2)
       benchmark
@@ -331,11 +361,13 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
+  better_html
   bootsnap
   capybara
   debug
   devise
   dotenv-rails
+  erb_lint
   faker!
   importmap-rails
   jbuilder
@@ -346,6 +378,7 @@ DEPENDENCIES
   rails_live_reload
   redis (~> 4.0)
   rubocop-rails
+  rubocop-rails_config
   selenium-webdriver
   solargraph
   solargraph-rails
