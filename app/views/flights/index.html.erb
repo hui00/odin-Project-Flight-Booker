@@ -1,4 +1,12 @@
 <div>
   <h1 class="font-bold text-4xl">Flights#index</h1>
-    <p>Find me in app/views/flights/index.html.erb</p>
+  <p>Find me in app/views/flights/index.html.erb</p>
+<%= simple_form_for :search, url: "flight" , method: :get do |f| %>
+  <%= f.input :origin, collection: Airport.all.map { |a| [a.airportcode, a.id] }, label: "Departure Airport" %>
+  <%= f.input :destination, collection: Airport.all.map { |a| [a.airportcode, a.id] }, label: "Arrival Airport" %>
+  <%= f.input :passengers, collection: (1..4).map { |n| [n, n] }, label: "Number of Passengers" %>
+  <%= f.input :date, collection: group_dates_by_month(Flight.all.pluck(:start_datetime).uniq.sort), label: "Date" %>
+  <%= f.submit "Search" %>
+<% end %>
+
 </div>
