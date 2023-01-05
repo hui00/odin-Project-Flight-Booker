@@ -2,33 +2,24 @@
   <%# <%= search_path %1> %>
   <h1 class="font-bold text-4xl">Flights#index</h1>
   <p>Find me in app/views/flights/index.html.erb</p>
-<%= simple_form_for :search, url: search_path , method: :get, html: { class: 'bg-gray-200' } do |f| %>
-  <div class="flex flex-col md:flex-row md:items-center p-4 m-8 text-center">
-    <div class="w-full md:w-1/2 m-8 md:mb-0">
-      <%= f.input :origin, collection: Airport.all.map { |a| [a.airportcode, a.id] }, label: "Departure Airport", input_html: { class: 'bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal' } %>
-    </div>
-    <div class="w-full md:w-1/2 m-8 md:mb-0">
-      <%= f.input :destination, collection: Airport.all.map { |a| [a.airportcode, a.id] }, label: "Arrival Airport", input_html: { class: 'bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal' } %>
-    </div>
-    <div class="w-full md:w-1/2 m-8 md:mb-0">
-      <%= f.input :passengers, collection: (1..4).map { |n| [n, n] }, label: "Number of Passengers", input_html: { class: 'bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal' } %>
-    </div>
-    <div class="w-full md:w-1/2">
-      <%= f.submit "Search", class: 'text-xl font-bold rounded-full bg-blue-500 text-white px-4 py-2 w-full' %>
-    </div>
-  </div>
-<% end %>
+  <%= simple_form_for :search, url: search_path , method: :get, html: { class: 'p-4' } do |f| %>
+    <%= f.input :origin, collection: Airport.all.map { |a| [a.airportcode, a.id] }, label: "Departure Airport" %>
+    <%= f.input :destination, collection: Airport.all.map { |a| [a.airportcode, a.id] }, label: "Arrival Airport"%>
+    <%= f.input :passengers, collection: (1..4).map { |n| [n, n] }, required: false, label: "Number of Passengers" %>
+    <%= f.input :month, collection: Date::MONTHNAMES.compact, required: false, prompt: "Select a month", label: "Month" %>
+    <%= f.submit "Search", class: 'text-xl font-bold rounded-full bg-blue-500 text-white mt-4 px-4 py-2 w-full' %>
+  <% end %>
   <% flash.each do |name, msg| %>
     <%= content_tag :div, msg, class: name %>
   <% end %>
-
-<% if @flights.any? %>
-  <h2>Available Flights</h2>
-  <% @flights.each do |flight| %>
-    <p>Duration: <%= flight.duration %></p>
-    <p>Start Time: <%= flight.start_datetime %></p>
-    <p>Departure Airport: <%= flight.departure_airport.airportcode %></p>
-    <p>Arrival Airport: <%= flight.arrival_airport.airportcode %></p>
+  <% if @flights.any? %>
+    <h2 class="text-2xl bold">Available Flights:</h2>
+    <% @flights.each do |flight| %>
+      <p>Duration: <%= flight.duration %> hours</p>
+      <p>Start Time: <%= flight.start_datetime.strftime("%B %Y %H:%M") %></p>
+      <p>Departure Airport: <%= flight.departure_airport.airportcode %></p>
+      <p>Arrival Airport: <%= flight.arrival_airport.airportcode %></p>
+      <%# <p>Months: <%= flight.start_datetime.month %1>   </p> %>
+    <% end %>
   <% end %>
-<% end %>
 </div>
