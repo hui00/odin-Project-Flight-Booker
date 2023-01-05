@@ -2,12 +2,13 @@
   <%# <%= search_path %1> %>
   <h1 class="font-bold text-4xl">Flights#index</h1>
   <p>Find me in app/views/flights/index.html.erb</p>
-  <%= simple_form_for :search, url: search_path , method: :get, html: { class: 'p-4' } do |f| %>
-    <%= f.input :origin, collection: Airport.all.map { |a| [a.airportcode, a.id] }, label: "Departure Airport" %>
-    <%= f.input :destination, collection: Airport.all.map { |a| [a.airportcode, a.id] }, label: "Arrival Airport"%>
+  <%= simple_form_for :search, data: {controller: "flight"} , url: search_path , method: :get, html: { class: 'p-4' } do |f| %>
+    <%= f.input  :origin, collection: Airport.all.map { |a| [a.airportcode, a.id] }, label: "Departure Airport", input_html: { data: { "flight-target" => "origin" }} %>
+    <%= f.input :destination, collection: Airport.all.map { |a| [a.airportcode, a.id] }, label: "Arrival Airport", input_html: { data: { "flight-target" => "destination" }}%>
     <%= f.input :passengers, collection: (1..4).map { |n| [n, n] }, required: false, label: "Number of Passengers" %>
     <%= f.input :month, collection: Date::MONTHNAMES.compact, required: false, prompt: "Select a month", label: "Month" %>
-    <%= f.submit "Search", class: 'text-xl font-bold rounded-full bg-blue-500 text-white mt-4 px-4 py-2 w-full' %>
+    <%= f.submit "Search", data: {target: "flight.submit"}, disabled: true,
+class: 'text-xl font-bold rounded-full bg-blue-500 text-white mt-4 px-4 py-2 w-full' %>
   <% end %>
   <% flash.each do |name, msg| %>
     <%= content_tag :div, msg, class: name %>
