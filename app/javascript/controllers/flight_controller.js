@@ -5,21 +5,25 @@ export default class extends Controller {
   static targets = ["origin", "destination", "submit", "select", "booking"];
 
   connect() {
-    console.log("Hello, Stimulus!");
-    console.log(this.originTarget.value);
-    console.log(this.destinationTarget.value);
-    console.log(this.selectTarget.value);
-
+    // console.log("Hello, Stimulus!");
+    // console.log(this.originTarget.value);
+    // console.log(this.destinationTarget.value);
     // for start the search need to be selected the origin and destination
     this.originTarget.addEventListener("change", () => this.updateButton());
     this.destinationTarget.addEventListener("change", () =>
       this.updateButton()
     );
 
-
+    // console.log(this.selectTarget.value);
     // for booking need to be selected the flight
-    this.selectTarget.addEventListener("change", () => this.bookButton());
-      
+    // this.selectTarget.addEventListener("change", () => this.bookButton());
+
+    this.selectTargets.forEach((element) => {
+      element.addEventListener("change", (event) => this.bookButton(event.currentTarget));
+    });
+    // this.bookingTargets.forEach((element) => {
+    //   console.log(element.id)
+    // });
 
   }
 
@@ -30,15 +34,14 @@ export default class extends Controller {
       this.submitTarget.disabled = true;
     }
   }
-  bookButton() {
-    console.log(this.selectTarget.checked);
-    if (this.selectTarget.checked) {
-      this.bookingTarget.disabled = false;
-      // this.bookingTarget.classList.remove("hidden");
+  bookButton(element) {
+    console.log(element.id)
+    let id = element.id.split('-')[1]
+    // console.log(id)
+    if (element.checked) {
+    document.getElementById('submit-'+id).disabled = false;
     } else {
-      this.bookingTarget.disabled = true;
-      // this.bookingTarget.classList.add("hidden");
+    document.getElementById('submit-'+id).disabled = true;
     }
-
   }
 }
