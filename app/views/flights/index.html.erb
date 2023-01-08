@@ -18,17 +18,19 @@ class: 'text-xl font-bold rounded-full bg-blue-500 text-white mt-4 px-4 py-2 w-f
   <% if @flights.any? %>
     <h2 class="text-2xl bold">Available Flights:</h2>
     <% @flights.each do |flight| %>
+      <p>Flight ID: <%= flight.id %> </p>
       <p>Duration: <%= flight.duration %> hours</p>
       <p>Start Time: <%= flight.start_datetime.strftime("%B %Y %H:%M") %></p>
       <p>Departure Airport: <%= flight.departure_airport.airportcode %></p>
       <p>Arrival Airport: <%= flight.arrival_airport.airportcode %></p>
       <%= simple_form_for :booking, url: new_path, method: :get, html: { class: 'p-4' } do |f| %>
         <%= f.hidden_field :flight_id, value: flight.id %>
-        <%= f.input :selection, as: :boolean, label: false, value: flight.id, wrapper_class:"inline-flex mr-2",
-          input_html: {id: "selection-#{flight.id}", data: { "flight-target" => "select" }} %>
+        <%= f.hidden_field :passengers, value: params[:search][:passengers] %>
+        <%= f.input :selection, as: :boolean, label: false, wrapper_class:"inline-flex mr-2",
+          input_html: {id: "selection-#{flight.id}" , data: { "flight-target" => "select" }} %>
         <%= f.submit "Continue to passenger details", id: "submit-#{flight.id}", 
 class: "mb-6 button is-dark is-outlined rounded-full px-4 py-2 px-10 bg-blue-200 mt-2", disabled:  true %>
       <% end %>
-      <% end %>
     <% end %>
-  </div>
+  <% end %>
+</div>

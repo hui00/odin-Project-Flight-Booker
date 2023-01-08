@@ -14,7 +14,6 @@ class FlightsController < ApplicationController
       @flights = @flights.where("EXTRACT(MONTH FROM start_datetime) = ?", month_number)
     end
 
-
     if @flights.empty?
       flash.now[:danger] = "No flights found"
     else
@@ -25,6 +24,8 @@ class FlightsController < ApplicationController
   end
 
   def new
-    puts params
+    id = params[:booking][:flight_id]
+    @passengers = params[:booking][:passengers]
+    @flight = Flight.find_by(id:)
   end
 end
