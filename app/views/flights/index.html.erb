@@ -23,7 +23,7 @@ class: 'text-xl font-bold rounded-full bg-blue-500 text-white mt-4 px-4 py-2 w-f
       <p>Start Time: <%= flight.start_datetime.strftime("%B %Y %H:%M") %></p>
       <p>Departure Airport: <%= flight.departure_airport.airportcode %></p>
       <p>Arrival Airport: <%= flight.arrival_airport.airportcode %></p>
-      <%= simple_form_for :booking, url: new_path, method: :get, html: { class: 'p-4' } do |f| %>
+      <%= simple_form_for :booking, url: booking_path, method: :get, html: { class: 'p-4' } do |f| %>
         <%= f.hidden_field :flight_id, value: flight.id %>
         <%= f.hidden_field :passengers, value: params[:search][:passengers] %>
         <%= f.input :selection, as: :boolean, label: false, wrapper_class:"inline-flex mr-2",

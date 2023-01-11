@@ -1,0 +1,21 @@
+<div>
+<h1 class="text-4xl">new page</h1>
+<p> Flight ID: <%= @booking.flight.id %> </p>
+<%# <p> Passengers: <%= @booking.passenger %1> </p> %>
+<%# <% @passengers.each do |passenger| %1> %>
+<%#   <p> <%= passenger %1> </p> %>
+<%# <% end %1> %>
+
+<%= form_for @booking, url: create_path, method: :post do |form| %>
+  <!-- form fields for booking attributes go here -->
+  <% @booking.passengers.each do |passenger| %>
+    <%= fields_for passenger, index: passenger.id do |passenger_form| %>
+      <%= passenger_form.label :name %>
+      <%= passenger_form.text_field :name %>
+      <%= passenger_form.label :email %>
+      <%= passenger_form.text_field :email %>
+    <% end %>
+  <% end %>
+  <%= form.submit "Create Booking" %>
+<% end %>
+</div>
