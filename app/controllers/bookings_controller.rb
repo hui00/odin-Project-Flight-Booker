@@ -16,7 +16,7 @@ class BookingsController < ApplicationController
     if @booking.save
       puts "Booking saved"
       flash[:success] = "Booking saved"
-      redirect_to root_path
+      redirect_to show_path(@booking)
     else
       if @booking.errors.any?
         puts @booking.errors.full_messages
@@ -24,6 +24,10 @@ class BookingsController < ApplicationController
       flash[:danger] = "Booking not saved"
       render 'new', status: :unprocessable_entity
     end
+  end
+
+  def show
+    @booking = Booking.find_by(id: params[:id])
   end
 
   private

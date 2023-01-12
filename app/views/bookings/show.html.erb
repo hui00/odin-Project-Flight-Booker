@@ -1,0 +1,23 @@
+<div>
+  <h1 class="text-4xl"> Ticket Site</h1>
+  <% flash.each do |name, msg| %>
+    <%= content_tag :div, msg, class: name %>
+  <% end %>
+  <% @booking.passengers.each_with_index do |passenger, index| %>
+    <div class="my-4">
+      <p> <%= index+1 %>. Passenger  </p>
+      <p>
+        Name: <%= passenger.name %>
+      </p>
+    </div>
+  <% end %>
+  <div>
+    <p> From: <%= @booking.flight.departure_airport.airportcode %> Airport </p>
+    <p> To: <%= @booking.flight.arrival_airport.airportcode %> Airport </p>
+  </div>
+  <div class="mt-4">
+    <%= link_to "back to homepage", root_path, class: "back bg-blue-500
+    hover:bg-blue-700 text-white font-bold py-2 px-4
+    rounded-full" %>
+  </div>
+</div>

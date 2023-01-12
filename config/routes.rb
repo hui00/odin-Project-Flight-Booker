@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get "flights/new", to: "flights#new", as: "new"
   get "bookings/new", to: "bookings#new", as: "booking"
   post "bookings/new", to: "bookings#create", as: "create"
+  get "bookings/show/:id", to: "bookings#show", as: "show"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   # Defines the root path route ("/")
