@@ -12,9 +12,6 @@
     <%= f.submit "Search", data: {target: "flight.submit"}, disabled: true,
 class: 'text-xl font-bold rounded-full bg-blue-500 text-white mt-4 px-4 py-2 w-full' %>
   <% end %>
-  <% flash.each do |name, msg| %>
-    <%= content_tag :div, msg, class: name %>
-  <% end %>
   <% if @flights.any? %>
     <h2 class="text-2xl bold">Available Flights:</h2>
     <% @flights.each do |flight| %>
