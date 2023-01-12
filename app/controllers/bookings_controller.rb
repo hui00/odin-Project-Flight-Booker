@@ -1,33 +1,34 @@
 class BookingsController < ApplicationController
   def new
     id = params[:booking][:flight_id]
-    @booking = Booking.new(flight_id: id)
+    @booking = Booking.new
 
-    # @flight = Flight.find_by(id:)
-
-    # @passengers_amount = params[:booking][:passengers].to_i
-    # @passengers = Array.new(@passengers_amount) { Passenger.new }
+    @flight = Flight.find_by(id:)
     @passengers = params[:booking][:passengers].to_i.times {
       @booking.passengers.build
     }
-    # @booking.passengers.build
   end
 
   def create
-    # passengers_name = params[:booking][:name]
-    # passengers_email = params[:booking][:email]
-    # newPassenger = Passenger.create(name: passengers_name, email: passengers_email)
-    # @passengers = [name: passengers_name, email: passengers_email]
-    # @flight = Flight.find_by(id: params[:booking][:flight_id])
-    # @booking = Booking.new(@passengers, @flight)
+    @booking = Booking.new(booking_params)
+    @flight = Flight.find_by(id: @booking.flight_id)
 
     if @booking.save
-      # @booking.passengers.each do |passenger|
-      #   PassengerMailer.with(passenger: passenger).thank_you_email.deliver_now
-      # end
-      redirect_to @booking
+      puts "Booking saved"
+      flash[:success] = "Booking saved"
+      redirect_to root_path
     else
-      render "new"
+      if @booking.errors.any?
+        puts @booking.errors.full_messages
+      end
+      flash[:danger] = "Booking not saved"
+      render 'new', status: :unprocessable_entity
     end
+  end
+
+  private
+
+  def booking_params
+    params.require(:booking).permit(:flight_id, passengers_attributes: [:name, :email])
   end
 end

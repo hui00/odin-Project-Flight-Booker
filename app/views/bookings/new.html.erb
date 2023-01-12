@@ -1,21 +1,32 @@
-<div>
-<h1 class="text-4xl">new page</h1>
-<p> Flight ID: <%= @booking.flight.id %> </p>
-<%# <p> Passengers: <%= @booking.passenger %1> </p> %>
-<%# <% @passengers.each do |passenger| %1> %>
-<%#   <p> <%= passenger %1> </p> %>
-<%# <% end %1> %>
-
-<%= form_for @booking, url: create_path, method: :post do |form| %>
-  <!-- form fields for booking attributes go here -->
-  <% @booking.passengers.each do |passenger| %>
-    <%= fields_for passenger, index: passenger.id do |passenger_form| %>
-      <%= passenger_form.label :name %>
-      <%= passenger_form.text_field :name %>
-      <%= passenger_form.label :email %>
-      <%= passenger_form.text_field :email %>
+<div class="flex flex-col">
+  <h1 class="text-4xl">Make a new Booking</h1>
+  <p class="my-4"> Flight ID: <%= @flight.id %> </p>
+  <%= form_for @booking, url: create_path, method: :post do |f| %>
+    <%= f.hidden_field :flight_id, value: @flight.id %>
+    <%= f.fields_for :passengers do |passenger_form| %>
+      <div class="my-4">
+        <%= passenger_form.index+1 %>.
+        <%= passenger_form.label :name %>
+        <%= passenger_form.text_field :name %>
+        <%= passenger_form.label :email %>
+        <%= passenger_form.text_field :email %>
+      </div>
     <% end %>
+    <%= f.submit "Create Booking", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" %>
   <% end %>
-  <%= form.submit "Create Booking" %>
-<% end %>
+  <% if @booking.errors.any? %>
+    <div class="alert alert-danger my-8">
+      <h4>Please correct the following errors:</h4>
+      <ul>
+        <% @booking.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <% flash.each do |name, msg| %>
+    <p>
+    <%= content_tag :div, msg, class: name %>
+    </p>
+  <% end %>
 </div>
