@@ -1,37 +1,34 @@
-<div class="flex flex-col">
-  <h1 class="text-4xl">Make a new Booking</h1>
-  <p class="my-4"> Flight ID: <%= @flight.id %> </p>
-  <% if @passengers == 0 %>
+0 %>
     <p class="my-4"> No passengers selected </p>
-    <%= link_to "Back", :back,class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"   %>
+    <%= link_to "Back", :back,class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" %>
   <% else %>
-  <%= form_for @booking, url: create_path, method: :post do |f| %>
-    <%= f.hidden_field :flight_id, value: @flight.id %>
-    <%= f.fields_for :passengers do |passenger_form| %>
-      <div class="my-4">
-        <%= passenger_form.index+1 %>.
-        <%= passenger_form.label :name %>
-        <%= passenger_form.text_field :name %>
-        <%= passenger_form.label :email %>
-        <%= passenger_form.text_field :email %>
+    <%= form_for @booking, url: create_path, method: :post do |f| %>
+      <%= f.hidden_field :flight_id, value: @flight.id %>
+      <%= f.fields_for :passengers do |passenger_form| %>
+        <div class="my-4">
+          <%= passenger_form.index+1 %>.
+          <%= passenger_form.label :name %>
+          <%= passenger_form.text_field :name %>
+          <%= passenger_form.label :email %>
+          <%= passenger_form.text_field :email %>
+        </div>
+      <% end %>
+      <%= f.submit "Create Booking", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" %>
+    <% end %>
+    <% if @booking.errors.any? %>
+      <div class="alert alert-danger my-8">
+        <h4>Please correct the following errors:</h4>
+        <ul>
+          <% @booking.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
       </div>
     <% end %>
-    <%= f.submit "Create Booking", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" %>
-  <% end %>
-  <% if @booking.errors.any? %>
-    <div class="alert alert-danger my-8">
-      <h4>Please correct the following errors:</h4>
-      <ul>
-        <% @booking.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-  <% flash.each do |name, msg| %>
-    <p>
-    <%= content_tag :div, msg, class: name %>
-    </p>
-  <% end %>
-</div>
+    <% flash.each do |name, msg| %>
+      <p>
+        <%= content_tag :div, msg, class: name %>
+      </p>
+    <% end %>
+  </div>
 <% end %>
