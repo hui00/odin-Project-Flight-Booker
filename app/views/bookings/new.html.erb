@@ -1,6 +1,10 @@
 <div class="flex flex-col">
   <h1 class="text-4xl">Make a new Booking</h1>
   <p class="my-4"> Flight ID: <%= @flight.id %> </p>
+  <% if @passengers == 0 %>
+    <p class="my-4"> No passengers selected </p>
+    <%= link_to "Back", :back,class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"   %>
+  <% else %>
   <%= form_for @booking, url: create_path, method: :post do |f| %>
     <%= f.hidden_field :flight_id, value: @flight.id %>
     <%= f.fields_for :passengers do |passenger_form| %>
@@ -30,3 +34,4 @@
     </p>
   <% end %>
 </div>
+<% end %>
