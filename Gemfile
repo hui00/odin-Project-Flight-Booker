@@ -51,6 +51,8 @@ group :development do
   gem "pry-remote", group: :development
   gem "pry-rescue", group: :development
   gem "pry-theme", group: :development
+  gem "letter_opener", group: :development
+
 
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"

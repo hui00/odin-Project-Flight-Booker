@@ -15,6 +15,7 @@ class BookingsController < ApplicationController
 
     if @booking.save
       puts "Booking saved"
+      PassengerMailer.confirmation_email.deliver_later
       flash[:success] = "Booking saved"
       redirect_to show_path(@booking)
     else
@@ -22,7 +23,7 @@ class BookingsController < ApplicationController
         puts @booking.errors.full_messages
       end
       flash[:danger] = "Booking not saved"
-      render 'new', status: :unprocessable_entity
+      render "new", status: :unprocessable_entity
     end
   end
 
