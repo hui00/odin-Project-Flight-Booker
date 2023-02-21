@@ -1,0 +1,13 @@
+<div class="nested-fields">
+  <div class="my-4">
+    <%# <%= f.index+1 %1>. %>
+    <%= f.hidden_field :_destroy %>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+    <small>
+      <%= link_to "Remove", "#", data: { action: "nested-form#remove" } %>
+    </small>
+  </div>
+</div>

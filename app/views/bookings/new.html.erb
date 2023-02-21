@@ -5,33 +5,36 @@
     <p class="my-4"> No passengers selected </p>
     <%= link_to "Back", :back,class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" %>
   <% else %>
-    <%= form_for @booking, url: create_path, method: :post do |f| %>
-      <%= f.hidden_field :flight_id, value: @flight.id %>
-      <%= f.fields_for :passengers do |passenger_form| %>
-        <div class="my-4">
-          <%= passenger_form.index+1 %>.
-          <%= passenger_form.label :name %>
-          <%= passenger_form.text_field :name %>
-          <%= passenger_form.label :email %>
-          <%= passenger_form.text_field :email %>
+    <div data-controller="nested-form">
+      <%= form_for @booking, url: create_path, method: :post do |f| %>
+        <%= f.hidden_field :flight_id, value: @flight.id %>
+        <template data-target="nested-form.template">
+          <%= f.fields_for :passengers, Passenger.new, child_index: "TEMPLATE_RECORD"  do |passenger_form| %>
+            <%= render 'passenger_fields', f: passenger_form %>
+          <% end %>
+        </template>
+        <%= f.fields_for :passengers do |passenger_form| %>
+          <%= render 'passenger_fields', f: passenger_form %>
+        <% end %>
+        <div data-target="nested-form.add_task" class="mb-4">
+          <%= link_to "Add more Passenger", "#", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full", data: { action: "nested-form#add" } %>
+        </div>
+        <%= f.submit "Create Booking", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" %>
+      <% end %>
+      <% if @booking.errors.any? %>
+        <div class="alert alert-danger my-8">
+          <h4>Please correct the following errors:</h4>
+          <ul>
+            <% @booking.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
         </div>
       <% end %>
-      <%= f.submit "Create Booking", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" %>
-    <% end %>
-    <% if @booking.errors.any? %>
-      <div class="alert alert-danger my-8">
-        <h4>Please correct the following errors:</h4>
-        <ul>
-          <% @booking.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-    <% flash.each do |name, msg| %>
-      <p>
-        <%= content_tag :div, msg, class: name %>
-      </p>
-    <% end %>
-  </div>
-<% end %>
+      <% flash.each do |name, msg| %>
+        <p>
+          <%= content_tag :div, msg, class: name %>
+        </p>
+      <% end %>
+    </div>
+  <% end %>
